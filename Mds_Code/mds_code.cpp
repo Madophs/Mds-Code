@@ -1,10 +1,7 @@
-#include <iostream>
 #include <iomanip>
-#include "MdsFile.h"
+#include "FileCreation.h"
 
-using namespace std;
-
-const double version = 1.0;
+const double version = 1.1;
 const int partialCommandLength = 6, fullCommandLength = 12;
 
 string getOperatingSystem(){
@@ -18,11 +15,12 @@ string getOperatingSystem(){
         operatingSystem += i?" ":"";
         operatingSystem += token;
     }
-    return operatingSystem;
+    if(operatingSystem.empty()) return "";
+    return "("+operatingSystem+")";
 }
 
 void displayVersion(){
-    cout<<"Mds Code "<<version<<" ("<<getOperatingSystem()<<")"<<endl;
+    cout<<"Mds Code "<<version<<" "<<getOperatingSystem()<<endl;
     cout<<"This is an open source software."<<endl;
     cout<<"Developed by Jehú Jair Ruiz Villegas A.K.A Madophs."<<endl;
 }
@@ -30,7 +28,12 @@ void displayHelp(){
     cout<<"Mds Code "<<version<<" developed by Jehú Jair Ruiz Villegas"<<endl;
     cout<<"Operating System: "<<getOperatingSystem()<<endl;
     cout<<"mds_code [parameter] filename"<<endl;
+    cout<<setw(partialCommandLength)<<"-s"<<setw(fullCommandLength)<<"--setup"<<"Create everything necessary to make this command work. (It will setup everything as default, including your own configurations)."<<endl;
     cout<<setw(partialCommandLength)<<"-n"<<setw(fullCommandLength)<<"--new"<<"Create a new file with specified name (literally)."<<endl;
+    cout<<setw(partialCommandLength)<<"-c"<<setw(fullCommandLength)<<"--c"<<"Create a C file with predifined code."<<endl;
+    cout<<setw(partialCommandLength)<<"-c++"<<setw(fullCommandLength)<<"--c++"<<"Create a C++ file with predifined code."<<endl;
+    cout<<setw(partialCommandLength)<<"-j"<<setw(fullCommandLength)<<"--java"<<"Create a Java file with predifined code."<<endl;
+    cout<<setw(partialCommandLength)<<"-b"<<setw(fullCommandLength)<<"--build"<<"Compile the specified file. (Binary file is located in MdsCode directory)"<<endl;
     cout<<setw(partialCommandLength)<<"-v"<<setw(fullCommandLength)<<"--version"<<"Displays the current version."<<endl;
     cout<<setw(partialCommandLength)<<"-h"<<setw(fullCommandLength)<<"--help"<<"Show this help."<<endl;
     cout<<endl;
@@ -47,10 +50,12 @@ void createStandardFile(int &argc,char *argv[]){
     }
     MdsFile file(filename);
     file.create();
+    file.close();
 }
 
 int main(int argc, char *argv[]){
     cout<<fixed<<setfill(' ')<<setprecision(1)<<left;
+    readFilenameSection();
     try{
         if(argc > 1){
             string parameter = argv[1];
@@ -60,6 +65,10 @@ int main(int argc, char *argv[]){
                 createStandardFile(argc, argv);   
             }else if(parameter == "-h" || parameter == "--help"){
                 displayHelp();
+            }else if(parameter == "-s" || parameter == "--setup"){
+                setupDefaultEnvironment();
+            }else if(parameter == "-c++" || parameter == "--c++"){
+                createSourceCodeFile(argc, argv, "cpp");
             }else{
                 throw "Error: invalid parameter.";
             }

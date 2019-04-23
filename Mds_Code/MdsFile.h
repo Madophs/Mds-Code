@@ -9,19 +9,31 @@ class MdsFile {
         MdsFile(string,string);
         string getFilename() const;
         void create();
-        void createAtHomeDirectory();
+        void createAtMdsCodeDirectory();
         void createFileWithContent(string);
         void setExtension(string);
+        void addText(string);
+        void addNewLine();
+        void close();
+        string getCurrentPath();
     private:
         string filename;
         string homeDirectory;
         string fileExtension;
+        string mdscodeDirectory;
+        string pathToFile;
+        ofstream file;
 };
 
 MdsFile::MdsFile(string filename, string fileExtension = ""){
     this->filename = filename;
     this->homeDirectory = getenv("HOME");
     this->fileExtension = fileExtension;
+    this->mdscodeDirectory = homeDirectory+"/MdsCode";
+}
+
+string MdsFile::getFilename() const{
+    return this->filename;
 }
 
 void MdsFile::create(){
@@ -30,16 +42,14 @@ void MdsFile::create(){
     fstream fileExists;
     fileExists.open(fullFilename);
     if(fileExists.fail()){
-        ofstream file(fullFilename, ios::out);
-        file.close();
+        file.open(fullFilename, ios::out);
     }else{
         string decision;
         cout<<"File already exists, overwrite? (y,n)"<<endl;
         cin>>decision;
         transform(decision.begin(), decision.end(), decision.begin(),::tolower);
         if(decision == "y" || decision == "yes"){
-            ofstream file(fullFilename, ios::out);
-            file.close();
+            file.open(fullFilename, ios::out);
         }
     }
 }
@@ -54,27 +64,24 @@ void MdsFile::createFileWithContent(string pathToFile){
             fstream fileExists;
             fileExists.open(fullFilename);
             if(fileExists.fail()){
-                ofstream file(fullFilename, ios::out);
+                file.open(fullFilename, ios::out);
                 string line;
                 while(getline(fileContent,line)){
                     file<<line<<"\n";
                 }
-                file.close();
             }else{
                 string decision;
                 cout<<"File already exists, overwrite? (y,n)"<<endl;
                 cin>>decision;
                 transform(decision.begin(), decision.end(), decision.begin(),::tolower);
                 if(decision == "y" || decision == "yes"){
-                    ofstream file(fullFilename, ios::out);
+                    file.open(fullFilename, ios::out);
                     string line;
                     while(getline(fileContent,line)){
                         file<<line<<"\n";
                     }
-                    file.close();
                 }
             }
-            
         }else{
             throw "Error: file does not exists.";
         }
@@ -83,11 +90,26 @@ void MdsFile::createFileWithContent(string pathToFile){
     }
 }
 
-void MdsFile::createAtHomeDirectory(){
-    ofstream file(homeDirectory+"/"+filename, ios::out);
-    file.close();
+
+void MdsFile::createAtMdsCodeDirectory(){
+    string fullFilename = filename;
+    if(!fileExtension.empty()) fullFilename += "." + fileExtension;
+    string fullFilenameWithPath = mdscodeDirectory+"/"+fullFilename;
+    file.open(fullFilenameWithPath);
 }
 
 void MdsFile::setExtension(string fileExtension){
     this->fileExtension = fileExtension;
+}
+
+void MdsFile::addText(string line){
+    file<<line<<"\n";
+}
+
+void MdsFile::addNewLine(){
+    file<<"\n";
+}
+
+void MdsFile::close(){
+    file.close();
 }
