@@ -86,14 +86,10 @@ void createConfigfile(){
     configFile.addText("ProblemNumberToEndOfFilename = true");
     configFile.addText("SeparateFilenameWithUnderscores = true #true hello world = hello_word and false = helloworld");
     configFile.addNewLine();
-    configFile.addText("[workspace]");
-    configFile.addText("# Set up a working directory mdscode -w then cd $MDSCODE");
-    configFile.addText("Workspace = /home/madophs/MdsCode");
-    configFile.addNewLine();
     configFile.addText("[compilation]");
-    configFile.addText("# sintax to compile a source code file output by default is \"mds\" save in this same directory");
-    configFile.addText("cpp = g++ {{ filename }} -o {{ output }}");
-    configFile.addText("c = gcc {{ filename }} -o {{ output }}");
+    configFile.addText("# Sintax to compile a source code file output by default is \"mds\" save in this directory");
+    configFile.addText("cpp = -Wextra -Werror -O2 -static -std=gnu++14 {{filename}} -o {{binary}}");
+    configFile.addText("c = gcc {{filename}} -o {{output}}");
     configFile.close();
 }
 
