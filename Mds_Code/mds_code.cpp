@@ -2,7 +2,7 @@
 #include "FileCreation.h"
 #include "Compile.h"
 
-const double version = 1.1;
+const double version = 1.2;
 const int partialCommandLength = 6, fullCommandLength = 12;
 
 string getOperatingSystem(){
