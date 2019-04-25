@@ -2,7 +2,7 @@
 #include "FileCreation.h"
 #include "Compile.h"
 
-const double version = 1.3;
+const double version = 1.4;
 const int partialCommandLength = 6, fullCommandLength = 12;
 
 string getOperatingSystem(){
@@ -31,9 +31,11 @@ void displayHelp(){
     cout<<"mds_code [parameter] filename"<<endl;
     cout<<setw(partialCommandLength)<<"-s"<<setw(fullCommandLength)<<"--setup"<<"Create everything necessary to make this command work. (It will setup everything as default, including your own configurations)."<<endl;
     cout<<setw(partialCommandLength)<<"-n"<<setw(fullCommandLength)<<"--new"<<"Create a new file with specified name (literally)."<<endl;
-    cout<<setw(partialCommandLength)<<"-c"<<setw(fullCommandLength)<<"--c"<<"Create a C file with predifined code."<<endl;
-    cout<<setw(partialCommandLength)<<"-c++"<<setw(fullCommandLength)<<"--c++"<<"Create a C++ file with predifined code."<<endl;
-    cout<<setw(partialCommandLength)<<"-j"<<setw(fullCommandLength)<<"--java"<<"Create a Java file with predifined code."<<endl;
+    cout<<setw(partialCommandLength)<<"-c++"<<setw(fullCommandLength)<<"--c++"<<"Create a C++ file with predefined code."<<endl;
+    cout<<setw(partialCommandLength)<<"-j"<<setw(fullCommandLength)<<"--java"<<"Create a Java file with predefined code."<<endl;
+    cout<<setw(partialCommandLength)<<"-e"<<setw(fullCommandLength)<<"--extension"<<"Create a file with specified extension."<<endl;
+    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Sintax mdscode -e cpp -t mytemplate.cpp hello world"<<endl;
+    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"(optional -t stands for template, the specified template must be in MdsCode directory)"<<endl;
     cout<<setw(partialCommandLength)<<"-b"<<setw(fullCommandLength)<<"--build"<<"Compile the specified file. (Binary file is located in MdsCode directory)"<<endl;
     cout<<setw(partialCommandLength)<<"-v"<<setw(fullCommandLength)<<"--version"<<"Displays the current version."<<endl;
     cout<<setw(partialCommandLength)<<"-h"<<setw(fullCommandLength)<<"--help"<<"Show this help."<<endl;
@@ -69,11 +71,38 @@ int main(int argc, char *argv[]){
             }else if(parameter == "-s" || parameter == "--setup"){
                 setupDefaultEnvironment();
             }else if(parameter == "-c++" || parameter == "--c++"){
-                createSourceCodeFile(argc, argv, "cpp");
+                createSourceCodeFile(argc, argv, "cpp","template_cpp.cpp");
             }else if(parameter == "-j" || parameter == "--java"){
-                createSourceCodeFile(argc, argv, "java");
+                createSourceCodeFile(argc, argv, "java","template_java.java");
             }else if(parameter == "-b" || parameter == "--build"){
                 buildSourceCode(argv[2]);
+            }else if(parameter == "-e" || parameter == "--extension"){
+                if(argc > 2){
+                    string fileExtension = argv[2];
+                    if(argc > 3){
+                        string fourthParameter = argv[3];
+                        if(fourthParameter[0] == '-' && fourthParameter == "-t"){
+                            if(argc > 4){
+                                string templateName = argv[4];
+                                if(argc > 5){
+                                    createSourceCodeFile(argc, argv, fileExtension,templateName,5);
+                                }else{
+                                    cout<<"Error: filename not specified"<<endl;
+                                }
+                            }else{
+                                cout<<"Error: template name not specified."<<endl;
+                            }
+                        }else if(fourthParameter[0] == '-' && fourthParameter != "-t"){
+                            cout<<"Option "<<fourthParameter<<" not recognized"<<endl;
+                        }else{
+                            createSourceCodeFile(argc,argv, fileExtension,"",3);
+                        }
+                    }else{
+                        cout<<"Error: missing parameters."<<endl;
+                    }
+                }else{
+                    cout<<"Error: file extension not specified."<<endl;   
+                }
             }else{
                 throw "Error: invalid parameter.";
             }

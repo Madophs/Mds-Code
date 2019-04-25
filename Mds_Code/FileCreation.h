@@ -6,7 +6,7 @@ bool existsTemplate(string pathToTemplate){
     return templateFile.fail()? false : true;
 }
 
-void createSourceCodeFile(int argc, char *argv[], string fileExtension, int index = 2){
+void createSourceCodeFile(int argc, char *argv[], string fileExtension, string templateName = "", int index = 2){
     if(readFilenameSection()){
         string fullFilename = rawFilename(argc, argv, index);
         flagRemoveNonAlphabeticalCharacters(fullFilename);
@@ -19,15 +19,19 @@ void createSourceCodeFile(int argc, char *argv[], string fileExtension, int inde
             return;
         }
         string homeDirectory = getenv("HOME");
-        string pathToTemplate = homeDirectory+"/MdsCode/template_"+fileExtension+"."+fileExtension;
-        if(existsTemplate(pathToTemplate)){
-            MdsFile file(fullFilename, fileExtension);
-            file.createFileWithContent(pathToTemplate);
-            file.close();   
-        }else{
+        if(templateName.empty()){
             MdsFile file(fullFilename, fileExtension);
             file.create();
             file.close();
+        }else{
+            string pathToTemplate = homeDirectory+"/MdsCode/"+templateName;
+            if(existsTemplate(pathToTemplate)){
+                MdsFile file(fullFilename, fileExtension);
+                file.createFileWithContent(pathToTemplate);
+                file.close();   
+            }else{
+                cout<<"Template "<<templateName<<" does not exits"<<endl;
+            }
         }
     }
 }
