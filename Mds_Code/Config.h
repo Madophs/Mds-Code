@@ -50,7 +50,7 @@ void createDefaultJavaTemplate(){
     MdsFile javaTemplate("template_java","java");
     javaTemplate.createAtMdsCodeDirectory();
     string imports = "import java.io.*;";
-    string hereGoesClassName = "{{ classname }}";
+    string hereGoesClassName = "{{classname}}";
     string className = "class " + hereGoesClassName + " {";
     string instanceName = "Madophs";
     string instanceDeclaration = hereGoesClassName + " " + instanceName + " = new " + hereGoesClassName + "();";

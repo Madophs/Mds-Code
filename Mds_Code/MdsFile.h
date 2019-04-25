@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -11,6 +12,8 @@ class MdsFile {
         void create();
         void createAtMdsCodeDirectory();
         void createFileWithContent(string);
+        vector<int> kmpPreprocess(string);
+        string kmpReplace(string &,string &,string,vector<int> &);
         void setExtension(string);
         void addText(string);
         void addNewLine();
@@ -55,6 +58,8 @@ void MdsFile::create(){
 }
 
 void MdsFile::createFileWithContent(string pathToFile){
+    string searchString = "{{classname}}";
+    vector<int> pattern = kmpPreprocess(searchString);
     string fullFilename = filename;
     if(!fileExtension.empty()) fullFilename+="."+fileExtension;
     try{
@@ -67,6 +72,7 @@ void MdsFile::createFileWithContent(string pathToFile){
                 file.open(fullFilename, ios::out);
                 string line;
                 while(getline(fileContent,line)){
+                    kmpReplace(line,searchString,filename,pattern);
                     file<<line<<"\n";
                 }
             }else{
@@ -78,6 +84,7 @@ void MdsFile::createFileWithContent(string pathToFile){
                     file.open(fullFilename, ios::out);
                     string line;
                     while(getline(fileContent,line)){
+                        kmpReplace(line,searchString,filename,pattern);
                         file<<line<<"\n";
                     }
                 }
@@ -90,6 +97,31 @@ void MdsFile::createFileWithContent(string pathToFile){
     }
 }
 
+vector<int> MdsFile::kmpPreprocess(string line){
+    vector<int> pattern(line.length()+1, 0);
+    pattern[0] = -1;
+    int j = -1, i = 0;
+    while(i<line.length()){
+        while(j > -1 && line[j] != line[i]) j = pattern[j];
+        ++j, ++i;
+        pattern[i] = j;
+    }
+    return pattern;
+}
+
+string MdsFile::kmpReplace(string &line, string &search, string replaceString, vector<int> &pattern){
+    int i = 0, j = 0;
+    vector<pair<int,int>> indexes;
+    while(i < line.length()){
+        while(j>=0 && line[i] != search[j]) j = pattern[j];
+        ++j,++i;
+        if(j == search.length()){
+            line.replace(i-j,j,replaceString);
+            i = 0, j = 0;
+        }
+    }
+    return line;
+}
 
 void MdsFile::createAtMdsCodeDirectory(){
     string fullFilename = filename;

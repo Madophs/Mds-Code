@@ -2,7 +2,7 @@
 #include "FileCreation.h"
 #include "Compile.h"
 
-const double version = 1.2;
+const double version = 1.3;
 const int partialCommandLength = 6, fullCommandLength = 12;
 
 string getOperatingSystem(){
@@ -70,6 +70,8 @@ int main(int argc, char *argv[]){
                 setupDefaultEnvironment();
             }else if(parameter == "-c++" || parameter == "--c++"){
                 createSourceCodeFile(argc, argv, "cpp");
+            }else if(parameter == "-j" || parameter == "--java"){
+                createSourceCodeFile(argc, argv, "java");
             }else if(parameter == "-b" || parameter == "--build"){
                 buildSourceCode(argv[2]);
             }else{

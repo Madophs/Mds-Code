@@ -15,7 +15,7 @@ void createSourceCodeFile(int argc, char *argv[], string fileExtension, int inde
         flagProblemNumberToEndOfFilename(fullFilename);
         flagSeparateFilenameWithUnderscores(fullFilename);
         if(fullFilename.empty()){
-            cout<<"Filename is empty, please check the configuration file in /home/{your user}/MdsCode/mdscode.conf"<<endl;
+            cout<<"Filename is empty, please check the configuration file in /home/{USER}/MdsCode/mdscode.conf"<<endl;
             return;
         }
         string homeDirectory = getenv("HOME");
