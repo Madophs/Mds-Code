@@ -1,5 +1,2 @@
-# Ignore mds binary file
-mdscode
-
 # Ignore visual studio code directory
 .vscode/

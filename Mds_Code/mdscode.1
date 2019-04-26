@@ -1,0 +1,52 @@
+.\" Manpage for MdsCode.
+.\" Contact tleveredict@gmail.com to correct errors or typos.
+.TH MdsCode 1 "16 April 2019" "1.6" "MdsCode man page"
+.SH NAME
+MdsCode \- Handles source code files creation, compilation and execution. Useful for Competitive Programming.
+.SH SYNOPSIS
+mdscode [OPTION] filename
+.SH DESCRIPTION
+mdscode create standard files and with predefined code from custom templates, build and execute source code from C/C++, Java and Python.
+It's capable to run binary files using IO files and handles the filenaming for you.
+Compilation and execution commands can be modified with your own preferences.
+
+.SH OPTIONS
+-s    --setup           Create everything necessary to make this command work
+                        It will setup everything as default, including your own configurations.
+.PP
+-n    --new             Create a new file with specified name (literally).
+.PP
+-c++  --c++             Create a C++ file with predefined code.
+.PP
+-j    --java            Create a Java file with predefined code.
+.PP
+-e    --extension       Create a file with specified extension.
+                        Sintax mdscode -e cpp -t mytemplate.cpp hello world
+                        (optional -t stands for template, the specified template must be in MdsCode directory)
+.PP
+-b    --build           Compile the specified file. (Binary file is located in MdsCode directory)
+.PP
+-r    --run             Execute the mds binary file in MdsCode directory
+                        -ri -ro -rio are valid parameters, i = input and o = output making reference to the IO files in MdsDirectory.
+                        Fullname commands: --run_with_input, --run_with_output, --run_with_io.
+.PP
+-io   --input_output    Creates input and output files.
+.PP
+-c    --config          Create mdscode configuation file.
+.PP
+-cc   --c++_tpl         Creates default C++ template.
+.PP
+-cj   --java_tpl        Creates default Java template.
+.PP
+-v    --version         Displays the current version.
+.PP
+-h    --help            Show this help.
+
+.SH BUGS
+This command is still under development.with source code
+.PP
+Known bugs: do not run python files, do not compile and run Java files, configuration file is still lack of features.
+.SH AUTHOR
+Jehú Jair Ruiz Villegas
+.PP
+Contact - tleveredict@gmail.com

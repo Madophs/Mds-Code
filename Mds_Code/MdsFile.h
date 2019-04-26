@@ -13,18 +13,16 @@ class MdsFile {
         void createAtMdsCodeDirectory();
         void createFileWithContent(string);
         vector<int> kmpPreprocess(string);
-        string kmpReplace(string &,string &,string,vector<int> &);
+        void kmpReplace(string &,string &,string,vector<int> &);
         void setExtension(string);
         void addText(string);
         void addNewLine();
         void close();
-        string getCurrentPath();
     private:
         string filename;
         string homeDirectory;
         string fileExtension;
         string mdscodeDirectory;
-        string pathToFile;
         ofstream file;
 };
 
@@ -109,7 +107,7 @@ vector<int> MdsFile::kmpPreprocess(string line){
     return pattern;
 }
 
-string MdsFile::kmpReplace(string &line, string &search, string replaceString, vector<int> &pattern){
+void MdsFile::kmpReplace(string &line, string &search, string replaceString, vector<int> &pattern){
     int i = 0, j = 0;
     vector<pair<int,int>> indexes;
     while(i < line.length()){
@@ -120,7 +118,6 @@ string MdsFile::kmpReplace(string &line, string &search, string replaceString, v
             i = 0, j = 0;
         }
     }
-    return line;
 }
 
 void MdsFile::createAtMdsCodeDirectory(){

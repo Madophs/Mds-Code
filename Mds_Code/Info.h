@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const double version = 1.5;
+const double version = 1.6;
 const int partialCommandLength = 6, fullCommandLength = 18;
 
 string getOperatingSystem(){
