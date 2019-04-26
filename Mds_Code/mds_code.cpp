@@ -92,7 +92,7 @@ int main(int argc, char *argv[]){
                 throw "Error: invalid parameter.";
             }
         }else{
-            throw "Error: missing parameters.\nSee -h for help.";
+            throw "This is MdsCode!!!";
         }
     }catch(const char * error){
         cout<<error<<endl;

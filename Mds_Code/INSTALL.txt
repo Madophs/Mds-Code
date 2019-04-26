@@ -1,0 +1,15 @@
+Thanks to download MdsCode the tool that I use in online programming constest
+
+Instructions to install
+
+Requirements:
+
+1.- Have c++ compiler installed
+
+Steps to follow:
+
+1.- Open a terminal window in the current directory
+2.- Run the following command "sh install.sh"
+3.- run "mdscode --setup"
+3.- Enjoy MdsCode for competitive programming
+
