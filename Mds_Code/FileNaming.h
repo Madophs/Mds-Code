@@ -65,7 +65,7 @@ bool readFilenameSection(){
                 throw "Section [filename] not found";
             }
         }else{
-            throw "Error: mdscode.conf not found.\n mdscode --conf may fix this.";
+            throw "Error: mdscode.conf not found.\nmdscode --config may fix this. (If you are doing this, ignore this message).";
         }
     }catch(const char *error){
         cout<<error<<endl;

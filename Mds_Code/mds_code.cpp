@@ -1,60 +1,6 @@
-#include <iomanip>
 #include "FileCreation.h"
-#include "Compile.h"
-
-const double version = 1.4;
-const int partialCommandLength = 6, fullCommandLength = 12;
-
-string getOperatingSystem(){
-    FILE *fpipe = popen("lsb_release -d","r");
-    char line[200];
-    string output = "", token, operatingSystem = "";
-    while(fgets(line,200,fpipe)) output += line;
-    stringstream ss(line);
-    ss>>token;
-    for(int i = 0; ss>>token; i++){
-        operatingSystem += i?" ":"";
-        operatingSystem += token;
-    }
-    if(operatingSystem.empty()) return "";
-    return "("+operatingSystem+")";
-}
-
-void displayVersion(){
-    cout<<"Mds Code "<<version<<" "<<getOperatingSystem()<<endl;
-    cout<<"This is an open source software."<<endl;
-    cout<<"Developed by Jehú Jair Ruiz Villegas A.K.A Madophs."<<endl;
-}
-void displayHelp(){
-    cout<<"Mds Code "<<version<<" developed by Jehú Jair Ruiz Villegas"<<endl;
-    cout<<"Operating System: "<<getOperatingSystem()<<endl;
-    cout<<"mds_code [parameter] filename"<<endl;
-    cout<<setw(partialCommandLength)<<"-s"<<setw(fullCommandLength)<<"--setup"<<"Create everything necessary to make this command work. (It will setup everything as default, including your own configurations)."<<endl;
-    cout<<setw(partialCommandLength)<<"-n"<<setw(fullCommandLength)<<"--new"<<"Create a new file with specified name (literally)."<<endl;
-    cout<<setw(partialCommandLength)<<"-c++"<<setw(fullCommandLength)<<"--c++"<<"Create a C++ file with predefined code."<<endl;
-    cout<<setw(partialCommandLength)<<"-j"<<setw(fullCommandLength)<<"--java"<<"Create a Java file with predefined code."<<endl;
-    cout<<setw(partialCommandLength)<<"-e"<<setw(fullCommandLength)<<"--extension"<<"Create a file with specified extension."<<endl;
-    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Sintax mdscode -e cpp -t mytemplate.cpp hello world"<<endl;
-    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"(optional -t stands for template, the specified template must be in MdsCode directory)"<<endl;
-    cout<<setw(partialCommandLength)<<"-b"<<setw(fullCommandLength)<<"--build"<<"Compile the specified file. (Binary file is located in MdsCode directory)"<<endl;
-    cout<<setw(partialCommandLength)<<"-v"<<setw(fullCommandLength)<<"--version"<<"Displays the current version."<<endl;
-    cout<<setw(partialCommandLength)<<"-h"<<setw(fullCommandLength)<<"--help"<<"Show this help."<<endl;
-    cout<<endl;
-    cout<<"This is an open source software feel free to use it, modified it and add your own features"<<endl;
-    cout<<"Please tell me your recommendations and how can I improve it."<<endl;
-    cout<<"I code this command to handle the creation of files quickly when I'm participanting in programming contest."<<endl;
-    cout<<"I hope this command is useful for you like it is for me :)"<<endl;
-}
-void createStandardFile(int &argc,char *argv[]){
-    string filename = "";
-    for(int i = 2; i<argc; i++){
-        if(i > 2) filename += " ";
-        filename += argv[i];
-    }
-    MdsFile file(filename);
-    file.create();
-    file.close();
-}
+#include "CompileAndRun.h"
+#include "Info.h"
 
 int main(int argc, char *argv[]){
     cout<<fixed<<setfill(' ')<<setprecision(1)<<left;
@@ -65,17 +11,56 @@ int main(int argc, char *argv[]){
             if(parameter == "-v" || parameter == "--version"){
                 displayVersion();
             }else if(parameter == "-n" || parameter == "--new"){
-                createStandardFile(argc, argv);   
+                if(argc > 2){
+                    string filename = "";
+                    for(int i = 2; i<argc; i++){
+                        if(i > 2) filename += " ";
+                        filename += argv[i];
+                    }
+                    MdsFile file(filename);
+                    file.create();
+                    file.close();  
+                }else{
+                    cout<<"Error: filename not specified."<<endl;
+                }
             }else if(parameter == "-h" || parameter == "--help"){
                 displayHelp();
             }else if(parameter == "-s" || parameter == "--setup"){
                 setupDefaultEnvironment();
             }else if(parameter == "-c++" || parameter == "--c++"){
-                createSourceCodeFile(argc, argv, "cpp","template_cpp.cpp");
+                if(argc > 2){
+                    createSourceCodeFile(argc, argv, "cpp","template_cpp.cpp");
+                }else{
+                    cout<<"Error: filename not specified."<<endl;
+                }
             }else if(parameter == "-j" || parameter == "--java"){
-                createSourceCodeFile(argc, argv, "java","template_java.java");
+                if(argc > 2){
+                    createSourceCodeFile(argc, argv, "java","template_java.java");
+                }else{
+                    cout<<"Error: filename not specified."<<endl;
+                }
             }else if(parameter == "-b" || parameter == "--build"){
-                buildSourceCode(argv[2]);
+                if(argc > 2){
+                    buildSourceCode(argv[2]);
+                }else{
+                    cout<<"Error: filename not specified."<<endl;
+                }
+            }else if(parameter == "-c" || parameter == "--config"){
+                createConfigfile();
+            }else if(parameter == "-cc" || parameter == "--c++_tpl"){
+                createDefaultCplusplusTemplate();
+            }else if(parameter == "-cj" || parameter == "--java_tpl"){
+                createDefaultJavaTemplate();
+            }else if(parameter == "-io" || parameter == "--input_output"){
+                createIOFiles();
+            }else if(parameter == "-r" || parameter == "-rio" || parameter == "-ro" || parameter == "-ri" || parameter == "--run"){
+                bool withInput = parameter == "-rio" || parameter == "-ri" ? true : false;
+                bool withOutput = parameter == "-rio" || parameter == "-ro" ? true : false;
+                executeBinaryFile(withInput, withOutput);
+            }else if(parameter == "--run_with_io" || parameter == "--run_with_input" || parameter == "--run_with_output"){
+                bool withInput = parameter == "--run_with_io" || parameter == "--run_with_input" ? true : false;
+                bool withOutput = parameter == "--run_with_io" || parameter == "--run_with_output" ? true : false;
+                executeBinaryFile(withInput, withOutput);
             }else if(parameter == "-e" || parameter == "--extension"){
                 if(argc > 2){
                     string fileExtension = argv[2];

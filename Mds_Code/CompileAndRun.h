@@ -10,7 +10,7 @@ string getExtension(string filename){
     return filename.substr(pos+1,string::npos);
 }
 
-bool sourceCodeFileExists(string filename){
+bool fileExists(string filename){
     fstream file;
     file.open(filename);
     return !file.fail();
@@ -74,7 +74,7 @@ string constructCommand(string filename){
 }
 
 void buildSourceCode(string filename){
-    if(!sourceCodeFileExists(filename)){
+    if(!fileExists(filename)){
         cout<<"Error: file "<<filename<<" not found"<<endl;
         exit(1);
     }
@@ -101,5 +101,28 @@ void buildSourceCode(string filename){
         cout<<"Error: binary file output location not specified"<<endl;
         exit(1);
     }
+    system(command.c_str());
+}
+
+void executeBinaryFile(bool input = false, bool output = false){
+    string homeDirectory = getenv("HOME");
+    string mdscodeDirectory = homeDirectory + "/MdsCode";
+    string pathToInput = mdscodeDirectory + "/input.txt";
+    string pathToOutput = mdscodeDirectory + "/output.txt";
+    string inputCommand = input ? " < " + pathToInput: "";
+    string outputCommand = output ? " > " + pathToOutput: "";
+    if(!fileExists(mdscodeDirectory+"/mds")){
+        cout<<"Error: binary file mds not found."<<endl;
+        exit(1);
+    }
+    if(input && !fileExists(pathToInput)){
+        cout<<"Error: input file doest exits."<<endl;
+        exit(1);
+    }
+    if(output && !fileExists(pathToOutput)){
+        cout<<"Error: output file doest exits."<<endl;
+        exit(1);
+    }
+    string command = mdscodeDirectory+"/mds"+ inputCommand + outputCommand;
     system(command.c_str());
 }

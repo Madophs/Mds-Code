@@ -25,6 +25,7 @@ void removeMdsCodeDirectory(){
 }
 
 void createDefaultCplusplusTemplate(){
+    createMdsCodeDirectory();
     MdsFile cplusplusTemplate("template_cpp","cpp");
     cplusplusTemplate.createAtMdsCodeDirectory();
     string imports = "#include <bits/stdc++.h>";
@@ -47,6 +48,7 @@ void createDefaultCplusplusTemplate(){
 }
 
 void createDefaultJavaTemplate(){
+    createMdsCodeDirectory();
     MdsFile javaTemplate("template_java","java");
     javaTemplate.createAtMdsCodeDirectory();
     string imports = "import java.io.*;";
@@ -76,6 +78,7 @@ void createDefaultJavaTemplate(){
 }
 
 void createConfigfile(){
+    createMdsCodeDirectory();
     MdsFile configFile("mdscode","conf");
     configFile.createAtMdsCodeDirectory();
     configFile.addText("[filename]");
@@ -88,7 +91,7 @@ void createConfigfile(){
     configFile.addNewLine();
     configFile.addText("[compilation]");
     configFile.addText("# Sintax to compile a source code file output by default is \"mds\" save in this directory");
-    configFile.addText("cpp = -Wextra -Werror -O2 -static -std=gnu++14 {{filename}} -o {{binary}}");
+    configFile.addText("cpp = g++ -std=gnu++14 {{filename}} -o {{binary}}");
     configFile.addText("c = gcc {{filename}} -o {{output}}");
     configFile.close();
 }
