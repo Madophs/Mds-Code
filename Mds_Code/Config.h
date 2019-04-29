@@ -2,7 +2,9 @@
 
 void createMdsCodeDirectory(){
     string homeDirectory = getenv("HOME");
-    string command = "mkdir -p "+homeDirectory+"/MdsCode";
+    string command = "mkdir -p "+homeDirectory+"/MdsCode/bin";
+    system(command.c_str());
+    command = "mkdir -p "+homeDirectory+"/MdsCode/source";
     system(command.c_str());
 }
 
@@ -85,14 +87,19 @@ void createConfigfile(){
     configFile.addText("# Flags for naming files");
     configFile.addText("RemoveNumbers = false");
     configFile.addText("RemoveNonAlphabeticalCharacters = true # (./',\\-!, etc...) not include spaces");
-    configFile.addText("CapitalizeEveryWord = false");
+    configFile.addText("CapitalizeEveryWord = true");
     configFile.addText("ProblemNumberToEndOfFilename = true");
     configFile.addText("SeparateFilenameWithUnderscores = true #true hello world = hello_word and false = helloworld");
     configFile.addNewLine();
     configFile.addText("[compilation]");
     configFile.addText("# Sintax to compile a source code file output by default is \"mds\" save in this directory");
-    configFile.addText("cpp = g++ -std=gnu++14 {{filename}} -o {{binary}}");
+    configFile.addText("# {{output}} = /home/USER/MdsCode/bin/mds");
+    configFile.addText("# {{bin}} = /home/USER/MdsCode/bin/");
+    configFile.addText("# {{source}} =  /home/USER/MdsCode/source/");
+    configFile.addText("# {{mds}} =  /home/USER/MdsCode/");
+    configFile.addText("cpp = g++ -std=gnu++14 {{filename}} -o {{output}}");
     configFile.addText("c = gcc {{filename}} -o {{output}}");
+    configFile.addText("java = javac {{source}}/Main.java -d {{bin}}");
     configFile.close();
 }
 

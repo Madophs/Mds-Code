@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const double version = 1.6;
+const double version = 1.7;
 const int partialCommandLength = 6, fullCommandLength = 18;
 
 string getOperatingSystem(){
@@ -43,6 +43,7 @@ void displayHelp(){
     cout<<setw(partialCommandLength)<<"-b"<<setw(fullCommandLength)<<"--build"<<"Compile the specified file. (Binary file is located in MdsCode directory)"<<endl;  
     cout<<setw(partialCommandLength)<<"-r"<<setw(fullCommandLength)<<"--run"<<"Execute the mds binary file in MdsCode directory"<<endl;  
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"-ri -ro -rio are valid parameters, i = input and o = output making reference to the IO files in MdsDirectory."<<endl;
+    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Add -j if you want to execute a Java file. (Filename is not needed MdsCode take care of that)"<<endl;
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Fullname commands: --run_with_input, --run_with_output, --run_with_io."<<endl;
     cout<<setw(partialCommandLength)<<"-io"<<setw(fullCommandLength)<<"--input_output"<<"Creates input and output files."<<endl;
     cout<<setw(partialCommandLength)<<"-c"<<setw(fullCommandLength)<<"--config"<<"Create mdscode configuation file."<<endl;

@@ -56,11 +56,21 @@ int main(int argc, char *argv[]){
             }else if(parameter == "-r" || parameter == "-rio" || parameter == "-ro" || parameter == "-ri" || parameter == "--run"){
                 bool withInput = parameter == "-rio" || parameter == "-ri" ? true : false;
                 bool withOutput = parameter == "-rio" || parameter == "-ro" ? true : false;
-                executeBinaryFile(withInput, withOutput);
+                bool javaFile = false;
+                if(argc > 2){
+                    string javaFlag = argv[2];
+                    if(javaFlag == "-j") javaFile = true;
+                }
+                executeBinaryFile(withInput, withOutput, javaFile);
             }else if(parameter == "--run_with_io" || parameter == "--run_with_input" || parameter == "--run_with_output"){
                 bool withInput = parameter == "--run_with_io" || parameter == "--run_with_input" ? true : false;
                 bool withOutput = parameter == "--run_with_io" || parameter == "--run_with_output" ? true : false;
-                executeBinaryFile(withInput, withOutput);
+                bool javaFile = false;
+                if(argc > 2){
+                    string javaFlag = argv[2];
+                    if(javaFlag == "-j") javaFile = true;
+                }
+                executeBinaryFile(withInput, withOutput, javaFile);
             }else if(parameter == "-e" || parameter == "--extension"){
                 if(argc > 2){
                     string fileExtension = argv[2];
