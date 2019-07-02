@@ -13,63 +13,62 @@ bool isTrue(string flag){
 }
 
 bool readFilenameSection(){
-    try{
-        ifstream configFile;
-        string homeDirectory = getenv("HOME");
-        string pathToConfigfile = homeDirectory + "/MdsCode/mdscode.conf";
-        string line;
-        configFile.open(pathToConfigfile);
-        if(!configFile.fail()){
-            string token;
-            bool finished = false, sectionFound = false, foundSection = false;
-            while(getline(configFile,line)){
-                stringstream ss(line);
-                while(ss>>token){
-                    if(token != "[filename]") break;
-                    string flagName, flagValue;
-                    char equals;
-                    sectionFound = true;
-                    while(getline(configFile,line)){
-                        stringstream flagLine(line);
-                        while(flagLine>>flagName){
-                            if(flagName[0] == '#') break;
-                            if(flagName[0] == '['){
-                                finished = true;
-                                break;
-                            }
-                            flagLine>>equals;
-                            flagLine>>flagValue;
-                            if(flagValue != "true" && flagValue != "false"){
-                                throw "Errors in [filename] section.";
-                            }
-                            if(flagName == "RemoveNonAlphabeticalCharacters"){
-                                RemoveNonAlphabeticalCharacters = isTrue(flagValue);
-                            }else if(flagName == "ProblemNumberToEndOfFilename"){
-                                ProblemNumberToEndOfFilename = isTrue(flagValue);
-                            }else if(flagName == "SeparateFilenameWithUnderscores"){
-                                SeparateFilenameWithUnderscores = isTrue(flagValue);
-                            }else if(flagName == "CapitalizeEveryWord"){
-                                CapitalizeEveryWord = isTrue(flagValue);
-                            }else if(flagName == "RemoveNumbers"){
-                                RemoveNumbers = isTrue(flagValue);
-                            }else{
-                                throw "Errors in [filename] section.";
-                            }
+    ifstream configFile;
+    string homeDirectory = getenv("HOME");
+    string pathToConfigfile = homeDirectory + "/MdsCode/mdscode.conf";
+    string line;
+    configFile.open(pathToConfigfile);
+    if(!configFile.fail()){
+        string token;
+        bool finished = false, sectionFound = false, foundSection = false;
+        while(getline(configFile,line)){
+            stringstream ss(line);
+            while(ss>>token){
+                if(token != "[filename]") break;
+                string flagName, flagValue;
+                char equals;
+                sectionFound = true;
+                while(getline(configFile,line)){
+                    stringstream flagLine(line);
+                    while(flagLine>>flagName){
+                        if(flagName[0] == '#') break;
+                        if(flagName[0] == '['){
+                            finished = true;
+                            break;
                         }
-                        if(finished) break;
+                        flagLine>>equals;
+                        flagLine>>flagValue;
+                        if(flagValue != "true" && flagValue != "false"){
+                            printInColor("Errors in [filename] section.","red");
+                            exit(1);
+                        }
+                        if(flagName == "RemoveNonAlphabeticalCharacters"){
+                            RemoveNonAlphabeticalCharacters = isTrue(flagValue);
+                        }else if(flagName == "ProblemNumberToEndOfFilename"){
+                            ProblemNumberToEndOfFilename = isTrue(flagValue);
+                        }else if(flagName == "SeparateFilenameWithUnderscores"){
+                            SeparateFilenameWithUnderscores = isTrue(flagValue);
+                        }else if(flagName == "CapitalizeEveryWord"){
+                            CapitalizeEveryWord = isTrue(flagValue);
+                        }else if(flagName == "RemoveNumbers"){
+                            RemoveNumbers = isTrue(flagValue);
+                        }else{
+                            printInColor("Errors in [filename] section.","red");
+                            exit(1);
+                        }
                     }
-                    if(finished) break;  
+                    if(finished) break;
                 }
+                if(finished) break;  
             }
-            if(!sectionFound){
-                throw "Section [filename] not found";
-            }
-        }else{
-            throw "Error: mdscode.conf not found.\nmdscode --config may fix this. (If you are doing this, ignore this message).";
         }
-    }catch(const char *error){
-        cout<<error<<endl;
-        return false;
+        if(!sectionFound){
+            printInColor("Error: ","red","section [filename] not found in config file.\n");
+            exit(1);
+        }
+    }else{
+        printInColor("Error: ","red","mdscode.conf not found.\nmdscode --config may fix this. (If you are doing this, ignore this message).\n");
+        exit(1);
     }
     return true;
 }

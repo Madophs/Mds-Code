@@ -15,7 +15,7 @@ void createSourceCodeFile(int argc, char *argv[], string fileExtension, string t
         flagProblemNumberToEndOfFilename(fullFilename);
         flagSeparateFilenameWithUnderscores(fullFilename);
         if(fullFilename.empty()){
-            cout<<"Filename is empty, please check the configuration file in /home/{USER}/MdsCode/mdscode.conf"<<endl;
+            printInColor("Error: ","red","filename is empty, please check the configuration file in /home/{USER}/MdsCode/mdscode.conf\n");
             return;
         }
         string homeDirectory = getenv("HOME");
@@ -30,7 +30,7 @@ void createSourceCodeFile(int argc, char *argv[], string fileExtension, string t
                 file.createFileWithContent(pathToTemplate);
                 file.close();   
             }else{
-                cout<<"Template "<<templateName<<" does not exits"<<endl;
+                printInColor("Error: ","red","template "+templateName+" does not exists.\n");
             }
         }
     }

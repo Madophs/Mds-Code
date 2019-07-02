@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const double version = 1.7;
+const double version = 1.8;
 const int partialCommandLength = 6, fullCommandLength = 18;
 
 string getOperatingSystem(){
@@ -18,7 +18,22 @@ string getOperatingSystem(){
         operatingSystem += token;
     }
     if(operatingSystem.empty()) return "";
-    return "("+operatingSystem+")";
+    return operatingSystem;
+}
+
+string getCodename(){
+    FILE *fpipe = popen("lsb_release -c","r");
+    char line[200];
+    string output = "", token, codename = "";
+    while(fgets(line,200,fpipe)) output += line;
+    stringstream ss(line);
+    ss>>token;
+    for(int i = 0; ss>>token; i++){
+        codename += i?" ":"";
+        codename += token;
+    }
+    if(codename.empty()) return "";
+    return codename;
 }
 
 void displayVersion(){
@@ -29,6 +44,7 @@ void displayVersion(){
 void displayHelp(){
     cout<<"Mds Code "<<version<<" developed by Jehú Jair Ruiz Villegas"<<endl;
     cout<<"Operating System: "<<getOperatingSystem()<<endl;
+    cout<<"Codename: "<<getCodename()<<endl;
     cout<<endl;
     cout<<"Sintax: mds_code [parameter] filename"<<endl;
     cout<<endl;
@@ -46,7 +62,7 @@ void displayHelp(){
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Add -j if you want to execute a Java file. (Filename is not needed MdsCode take care of that)"<<endl;
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Fullname commands: --run_with_input, --run_with_output, --run_with_io."<<endl;
     cout<<setw(partialCommandLength)<<"-io"<<setw(fullCommandLength)<<"--input_output"<<"Creates input and output files."<<endl;
-    cout<<setw(partialCommandLength)<<"-c"<<setw(fullCommandLength)<<"--config"<<"Create mdscode configuation file."<<endl;
+    cout<<setw(partialCommandLength)<<"-c"<<setw(fullCommandLength)<<"--config"<<"Create mdscode configuration file."<<endl;
     cout<<setw(partialCommandLength)<<"-cc"<<setw(fullCommandLength)<<"--c++_tpl"<<"Creates default C++ template."<<endl;
     cout<<setw(partialCommandLength)<<"-cj"<<setw(fullCommandLength)<<"--java_tpl"<<"Creates default Java template."<<endl;
     cout<<setw(partialCommandLength)<<"-v"<<setw(fullCommandLength)<<"--version"<<"Displays the current version."<<endl;
@@ -56,4 +72,20 @@ void displayHelp(){
     cout<<"Please tell me your recommendations and how can I improve it."<<endl;
     cout<<"I code this command to handle the creation of files quickly when I'm participanting in programming contest."<<endl;
     cout<<"I hope this command is useful for you like it is for me :)"<<endl;
+}
+
+void displayLogo(){
+     vector<string> mdscodeLogo = {
+        "     ____    ____       ____      _______       _______   ________   ____     _______",
+        "    /    \\  /    \\     |    \\    |  _____|     | ______| |   __   | |    \\   | ______|",
+        "   /  /\\  \\/  /\\  \\    |  _  \\   | |______     | |       |  |  |  | |  _  \\  | |_____",
+        "  /  /  \\    /  \\  \\   | | \\  \\  |______ |     | |       |  |  |  | | | \\  \\ | ______|",
+        " /  /    \\__/    \\  \\  | |_/  /  ______| |     | |______ |  |__|  | | |_/  / | |______",
+        "/__/              \\__\\ |_____/   |_______|     |_______| |________| |_____/  |_______|",
+    };
+    for(int i = 0; i<mdscodeLogo.size(); i++){
+            string logoSegment = "\e[1;32m"+mdscodeLogo[i]+"\e[0m";
+            cout<<logoSegment<<endl;
+    }
+    cout<<endl;
 }

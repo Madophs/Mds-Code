@@ -1,6 +1,4 @@
-#include <iostream>
-#include <sstream>
-#include <fstream>
+#include "FileCreation.h"
 
 using namespace std;
 
@@ -90,7 +88,7 @@ string constructCommand(string filename){
                             kmpReplace(token,"{{mds}}",homeDirectory+"/MdsCode/bin/",kmpPreprocess("{{filename}}"));
                             return command = token;
                         }
-                    }    cout<<command<<endl;
+                    }
                     return "-4";
                 }else{
                     break;
@@ -105,24 +103,24 @@ string constructCommand(string filename){
 
 void buildSourceCode(string filename){
     if(!fileExists(filename)){
-        cout<<"Error: file "<<filename<<" not found"<<endl;
+        printInColor("Error: ","red","file"+filename+" not found.\n");
         exit(1);
     }
     string command = constructCommand(filename);
     if(command == "-1"){
-        cout<<"Error: file extension not valid."<<endl;
+        printInColor("Error: ","red","file extension not valid.\n");
         exit(1);
     }else if(command == "-2"){
-        cout<<"Error: config file not found"<<endl;
+        printInColor("Error: ","red","config file not found.\n");
         exit(1);
     }else if(command == "-3"){
-        cout<<"Errors in compilation section"<<endl;
+        printInColor("Errors in compilation section.\n","red");
         exit(1);
     }else if(command == "-4"){
-        cout<<"Command sintax not found in config file"<<endl;
+        printInColor("Error: ","red","command sintax not found in config file.\n");
         exit(1);
     }else if(command == "-5"){
-        cout<<"Error: compilation section not found"<<endl;
+        printInColor("Error: ","red","compilation section not found in config file.\n");
         exit(1);
     }
     string fileExtension = getExtension(filename);
@@ -149,15 +147,15 @@ void executeBinaryFile(bool input = false, bool output = false, bool javaFile = 
     string inputCommand = input ? " < " + pathToInput: "";
     string outputCommand = output ? " > " + pathToOutput: "";
     if(!fileExists(mdscodeDirectory+"/bin/mds") && !javaFile){
-        cout<<"Error: binary file mds not found."<<endl;
+        printInColor("Error: ","red","binary file \"mds\" not found.\n");
         exit(1);
     }
     if(input && !fileExists(pathToInput)){
-        cout<<"Error: input file doest exits."<<endl;
+        printInColor("Error: ","red","input file doesn't exists.\n");
         exit(1);
     }
     if(output && !fileExists(pathToOutput)){
-        cout<<"Error: output file doest exits."<<endl;
+        printInColor("Error: ","red","output file doesn't exists.\n");
         exit(1);
     }
     string command;

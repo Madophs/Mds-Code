@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
+#include "Message.h"
 
 using namespace std;
 
@@ -60,38 +61,35 @@ void MdsFile::createFileWithContent(string pathToFile){
     vector<int> pattern = kmpPreprocess(searchString);
     string fullFilename = filename;
     if(!fileExtension.empty()) fullFilename+="."+fileExtension;
-    try{
-        ifstream fileContent;
-        fileContent.open(pathToFile);
-        if(!fileContent.fail()){
-            fstream fileExists;
-            fileExists.open(fullFilename);
-            if(fileExists.fail()){
+    ifstream fileContent;
+    fileContent.open(pathToFile);
+    if(!fileContent.fail()){
+        fstream fileExists;
+        fileExists.open(fullFilename);
+        if(fileExists.fail()){
+            file.open(fullFilename, ios::out);
+            string line;
+            while(getline(fileContent,line)){
+                kmpReplace(line,searchString,filename,pattern);
+                file<<line<<"\n";
+            }
+        }else{
+            string decision;
+            cout<<"File already exists, overwrite? (y,n)"<<endl;
+            cin>>decision;
+            transform(decision.begin(), decision.end(), decision.begin(),::tolower);
+            if(decision == "y" || decision == "yes"){
                 file.open(fullFilename, ios::out);
                 string line;
                 while(getline(fileContent,line)){
                     kmpReplace(line,searchString,filename,pattern);
                     file<<line<<"\n";
                 }
-            }else{
-                string decision;
-                cout<<"File already exists, overwrite? (y,n)"<<endl;
-                cin>>decision;
-                transform(decision.begin(), decision.end(), decision.begin(),::tolower);
-                if(decision == "y" || decision == "yes"){
-                    file.open(fullFilename, ios::out);
-                    string line;
-                    while(getline(fileContent,line)){
-                        kmpReplace(line,searchString,filename,pattern);
-                        file<<line<<"\n";
-                    }
-                }
             }
-        }else{
-            throw "Error: file does not exists.";
         }
-    }catch(const char * error){
-        cout<<error<<endl;
+    }else{
+        printInColor("Error: ","red","file does not exists.\n");
+        exit(1);
     }
 }
 
