@@ -3,9 +3,13 @@
 
 int main(int argc, char *argv[]){
     cout<<fixed<<setfill(' ')<<setprecision(1)<<left;
-    readFilenameSection();
     if(argc > 1){
         string parameter = argv[1];
+        if(parameter == "-s" || parameter == "--setup"){
+            setupDefaultEnvironment();
+            return 0;
+        }
+        readFilenameSection();
         if(parameter == "-v" || parameter == "--version"){
             displayVersion();
         }else if(parameter == "-n" || parameter == "--new"){
@@ -24,8 +28,6 @@ int main(int argc, char *argv[]){
             }
         }else if(parameter == "-h" || parameter == "--help"){
             displayHelp();
-        }else if(parameter == "-s" || parameter == "--setup"){
-            setupDefaultEnvironment();
         }else if(parameter == "-c++" || parameter == "--c++"){
             if(argc > 2){
                 createSourceCodeFile(argc, argv, "cpp","template_cpp.cpp");

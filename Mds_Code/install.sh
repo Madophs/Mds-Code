@@ -13,6 +13,7 @@ else
     sudo ln -s "$HOME/.MdsCode/mdscode" /usr/bin/mdscode
     sudo install -g 0 -o 0 -m 0644 mdscode.1 /usr/share/man/man1/
     sudo gzip /usr/share/man/man1/mdscode.1
+    mdscode --setup
     mdscode
     echo "MdsCode was successfully installed."
 fi

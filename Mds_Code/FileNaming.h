@@ -68,7 +68,6 @@ bool readFilenameSection(){
         }
     }else{
         printInColor("Error: ","red","mdscode.conf not found.\nmdscode --config may fix this. (If you are doing this, ignore this message).\n");
-        exit(1);
     }
     return true;
 }
