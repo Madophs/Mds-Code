@@ -12,7 +12,7 @@ class MdsFile {
         string getFilename() const;
         void create();
         void createAtMdsCodeDirectory();
-        void createFileWithContent(string);
+        void createFileWithContent(string,string);
         vector<int> kmpPreprocess(string);
         void kmpReplace(string &,string &,string,vector<int> &);
         void setExtension(string);
@@ -56,13 +56,13 @@ void MdsFile::create(){
     }
 }
 
-void MdsFile::createFileWithContent(string pathToFile){
-    string searchString = "{{classname}}";
+void MdsFile::createFileWithContent(string pathToFile, string searchString = "{{classname}}"){
     vector<int> pattern = kmpPreprocess(searchString);
     string fullFilename = filename;
     if(!fileExtension.empty()) fullFilename+="."+fileExtension;
     ifstream fileContent;
     fileContent.open(pathToFile);
+    cout<<pathToFile<<endl;
     if(!fileContent.fail()){
         fstream fileExists;
         fileExists.open(fullFilename);

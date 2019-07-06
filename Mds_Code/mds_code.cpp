@@ -1,4 +1,4 @@
-#include "CompileAndRun.h"
+#include "Export.h"
 #include "Info.h"
 
 int main(int argc, char *argv[]){
@@ -107,6 +107,8 @@ int main(int argc, char *argv[]){
                 printInColor("Error: ","red","file extension not specified..\n");
                 exit(1);   
             }
+        }else if(parameter == "-x" || parameter == "--export"){
+            exportSourceFile(argc, argv);
         }else{
             printInColor("Error: ","red","invalid parameter.\n");
             exit(1);

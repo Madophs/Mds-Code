@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 if hash mdscode 2>/dev/null; then
     echo "Unistalling..."
     sudo unlink /usr/bin/mdscode

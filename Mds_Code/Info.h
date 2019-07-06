@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const double version = 1.8;
+const double version = 2.0;
 const int partialCommandLength = 6, fullCommandLength = 18;
 
 string getOperatingSystem(){
@@ -57,10 +57,13 @@ void displayHelp(){
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Sintax mdscode -e cpp -t mytemplate.cpp hello world"<<endl;
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"(optional -t stands for template, the specified template must be in MdsCode directory)"<<endl;
     cout<<setw(partialCommandLength)<<"-b"<<setw(fullCommandLength)<<"--build"<<"Compile the specified file. (Binary file is located in MdsCode directory)"<<endl;  
-    cout<<setw(partialCommandLength)<<"-r"<<setw(fullCommandLength)<<"--run"<<"Execute the mds binary file in MdsCode directory"<<endl;  
+    cout<<setw(partialCommandLength)<<"-r"<<setw(fullCommandLength)<<"--run"<<"Execute the mds binary file in MdsCode directory"<<endl;
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"-ri -ro -rio are valid parameters, i = input and o = output making reference to the IO files in MdsDirectory."<<endl;
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Add -j if you want to execute a Java file. (Filename is not needed MdsCode take care of that)"<<endl;
     cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"Fullname commands: --run_with_input, --run_with_output, --run_with_io."<<endl;
+    cout<<setw(partialCommandLength)<<"-x"<<setw(fullCommandLength)<<"--export"<<"Copy the source code file to a certain directory."<<endl;
+    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"mdscode -x [filename] -p [export directory] -name [new name]. -p and -name are optional and their order do not matter."<<endl;
+    cout<<setw(partialCommandLength+fullCommandLength)<<" "<<"In -name flag just need to specify the name without extension."<<endl;
     cout<<setw(partialCommandLength)<<"-io"<<setw(fullCommandLength)<<"--input_output"<<"Creates input and output files."<<endl;
     cout<<setw(partialCommandLength)<<"-c"<<setw(fullCommandLength)<<"--config"<<"Create mdscode configuration file."<<endl;
     cout<<setw(partialCommandLength)<<"-cc"<<setw(fullCommandLength)<<"--c++_tpl"<<"Creates default C++ template."<<endl;

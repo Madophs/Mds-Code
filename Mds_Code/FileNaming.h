@@ -7,6 +7,7 @@ bool ProblemNumberToEndOfFilename = true;
 bool SeparateFilenameWithUnderscores = true;
 bool CapitalizeEveryWord = false;
 bool RemoveNumbers = false;
+bool ChangeLettersToEnglishAlphabet = true;
 
 bool isTrue(string flag){
     return flag == "true";
@@ -24,7 +25,7 @@ bool readFilenameSection(){
         while(getline(configFile,line)){
             stringstream ss(line);
             while(ss>>token){
-                if(token != "[filename]") break;
+                if(token != "[filename]" || token[0] == '#') break;
                 string flagName, flagValue;
                 char equals;
                 sectionFound = true;
@@ -39,7 +40,7 @@ bool readFilenameSection(){
                         flagLine>>equals;
                         flagLine>>flagValue;
                         if(flagValue != "true" && flagValue != "false"){
-                            printInColor("Errors in [filename] section.","red");
+                            printInColor("Errors in [filename] section.\n","red");
                             exit(1);
                         }
                         if(flagName == "RemoveNonAlphabeticalCharacters"){
@@ -52,8 +53,10 @@ bool readFilenameSection(){
                             CapitalizeEveryWord = isTrue(flagValue);
                         }else if(flagName == "RemoveNumbers"){
                             RemoveNumbers = isTrue(flagValue);
+                        }else if(flagName == "ChangeLettersToEnglishAlphabet"){
+                            ChangeLettersToEnglishAlphabet = isTrue(flagValue);
                         }else{
-                            printInColor("Errors in [filename] section.","red");
+                            printInColor("Errors in [filename] section.\n","red");
                             exit(1);
                         }
                     }

@@ -1,6 +1,6 @@
 .\" Manpage for MdsCode.
 .\" Contact tleveredict@gmail.com to correct errors or typos.
-.TH MdsCode 1 "1 July 2019" "1.8" "MdsCode man page"
+.TH MdsCode 1 "6 July 2019" "2.0" "MdsCode man page"
 .SH NAME
 MdsCode \- Handles source code files creation, compilation and execution. Useful for Competitive Programming.
 .SH SYNOPSIS
@@ -30,6 +30,10 @@ Compilation and execution commands can be modified with your own preferences.
                         -ri -ro -rio are valid parameters, i = input and o = output making reference to the IO files in MdsDirectory.
                         Fullname commands: --run_with_input, --run_with_output, --run_with_io.
                         Add -j if you want to execute a Java file. (Filename is not needed MdsCode take care of that)
+.PP
+-x    --export          Copy the source code file to a certain directory.
+                        mdscode -x [filename] -p [export directory] -name [new name]. -p and -name are optional and their order do not matter.
+                        In -name flag just need to specify the name without extension.
 .PP
 -io   --input_output    Creates input and output files.
 .PP

@@ -6,6 +6,8 @@ void createMdsCodeDirectory(){
     system(command.c_str());
     command = "mkdir -p "+homeDirectory+"/MdsCode/source";
     system(command.c_str());
+    command = "mkdir -p "+homeDirectory+"/MdsCode/exports";
+    system(command.c_str());
 }
 
 void createIOFiles(){
@@ -16,6 +18,9 @@ void createIOFiles(){
     MdsFile outputFile("output","txt");
     outputFile.createAtMdsCodeDirectory();
     outputFile.close();
+    MdsFile comparationFile("solution","txt");
+    comparationFile.createAtMdsCodeDirectory();
+    comparationFile.close();
 }
 
 void removeMdsCodeDirectory(){
@@ -73,7 +78,9 @@ void createDefaultJavaTemplate(){
     javaTemplate.addText("\t\t");
     javaTemplate.addText("\t\ttry{");
     javaTemplate.addText("\t\t\t");
-    javaTemplate.addText("\t\t}catch(Exception e){};");
+    javaTemplate.addText("\t\t}catch(Exception e){\n");
+    javaTemplate.addText("\t\t\tSystem.out.println(\"Error: \"+e.getMessage());\n");
+    javaTemplate.addText("\t\t};\n");
     javaTemplate.addText("\t}");
     javaTemplate.addText("}");
     javaTemplate.close();
@@ -83,13 +90,16 @@ void createConfigfile(){
     createMdsCodeDirectory();
     MdsFile configFile("mdscode","conf");
     configFile.createAtMdsCodeDirectory();
+    configFile.addText("###################### MdsCode configuration file ######################");
+    configFile.addNewLine();
     configFile.addText("[filename]");
     configFile.addText("# Flags for naming files");
     configFile.addText("RemoveNumbers = false");
-    configFile.addText("RemoveNonAlphabeticalCharacters = true # (./',\\-!, etc...) not include spaces");
-    configFile.addText("CapitalizeEveryWord = true");
+    configFile.addText("RemoveNonAlphabeticalCharacters = true # (./',\\-!, etc...) not include spaces or [ñ,á,é,í,ó,ú]");
+    configFile.addText("CapitalizeEveryWord = true # hello world -> Hello World");
     configFile.addText("ProblemNumberToEndOfFilename = true");
     configFile.addText("SeparateFilenameWithUnderscores = true #true hello world = hello_word and false = helloworld");
+    configFile.addText("ChangeLettersToEnglishAlphabet = true # Español -> Espanol, í -> i in other words [ñ,á,é,í,ó,ú] => [n,a,e,i,o,u]");
     configFile.addNewLine();
     configFile.addText("[compilation]");
     configFile.addText("# Sintax to compile a source code file output by default is \"mds\" save in this directory");
@@ -100,6 +110,15 @@ void createConfigfile(){
     configFile.addText("cpp = g++ -std=gnu++14 {{filename}} -o {{output}}");
     configFile.addText("c = gcc {{filename}} -o {{output}}");
     configFile.addText("java = javac {{source}}/Main.java -d {{bin}}");
+    configFile.addNewLine();
+    configFile.addText("[execution]");
+    configFile.addText("# {{output}} = /home/USER/MdsCode/bin/mds");
+    configFile.addText("# {{bin}} = /home/USER/MdsCode/bin/");
+    configFile.addText("# {{source}} =  /home/USER/MdsCode/source/");
+    configFile.addText("# {{mds}} =  /home/USER/MdsCode/");
+    configFile.addText("cpp = {{bin}}");
+    configFile.addText("c = {{bin}}");
+    configFile.addText("java = {{bin}}");
     configFile.close();
 }
 
