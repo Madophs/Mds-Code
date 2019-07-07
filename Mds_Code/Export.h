@@ -87,8 +87,10 @@ void exportSourceFile(int argc, char *argv[]){
                 MdsFile fileExport(filename,extension);
                 fileExport.createFileWithContent(getCurrentPath()+"/"+((string)argv[2]),originalFilename);
                 fileExport.close();
-                string command = "cp "+((string)argv[2])+" "+exportPath+filename+"."+extension;
-                system(command.c_str());       
+                string command = "rm -f "+exportPath+filename+"."+extension+" ";
+                system(command.c_str());
+                command = "mv "+filename+"."+extension+" "+exportPath;
+                system(command.c_str());
             }
         }
     }else{

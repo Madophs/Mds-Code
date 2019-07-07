@@ -62,7 +62,6 @@ void MdsFile::createFileWithContent(string pathToFile, string searchString = "{{
     if(!fileExtension.empty()) fullFilename+="."+fileExtension;
     ifstream fileContent;
     fileContent.open(pathToFile);
-    cout<<pathToFile<<endl;
     if(!fileContent.fail()){
         fstream fileExists;
         fileExists.open(fullFilename);
