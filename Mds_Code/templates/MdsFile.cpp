@@ -1,46 +1,18 @@
-#include <iostream>
-#include <fstream>
-#include <algorithm>
-#include <vector>
-#include "Message.h"
+#include "MdsFile.h"
 
-using namespace std;
-
-class MdsFile {
-    public:
-        MdsFile(string,string);
-        string getFilename() const;
-        void create();
-        void createAtMdsCodeDirectory();
-        void createFileWithContent(string,string);
-        vector<int> kmpPreprocess(string);
-        void kmpReplace(string &,string &,string,vector<int> &);
-        void setExtension(string);
-        void addText(string);
-        void addNewLine();
-        void close();
-    private:
-        string filename;
-        string homeDirectory;
-        string fileExtension;
-        string mdscodeDirectory;
-        ofstream file;
-};
-
-MdsFile::MdsFile(string filename, string fileExtension = ""){
+MdsFile::MdsFile(string filename, string fileExtension){
     this->filename = filename;
-    this->homeDirectory = getenv("HOME");
     this->fileExtension = fileExtension;
-    this->mdscodeDirectory = homeDirectory+"/MdsCode";
 }
 
 string MdsFile::getFilename() const{
     return this->filename;
 }
 
-void MdsFile::create(){
+void MdsFile::create(string path){
     string fullFilename = filename;
     if(!fileExtension.empty()) fullFilename+="."+fileExtension;
+    if(!path.empty()) fullFilename = path+"/"+fullFilename;
     fstream fileExists;
     fileExists.open(fullFilename);
     if(fileExists.fail()){
@@ -56,7 +28,7 @@ void MdsFile::create(){
     }
 }
 
-void MdsFile::createFileWithContent(string pathToFile, string searchString = "{{classname}}"){
+void MdsFile::createFileWithContent(string pathToFile, string searchString){
     vector<int> pattern = kmpPreprocess(searchString);
     string fullFilename = filename;
     if(!fileExtension.empty()) fullFilename+="."+fileExtension;
@@ -120,7 +92,7 @@ void MdsFile::kmpReplace(string &line, string &search, string replaceString, vec
 void MdsFile::createAtMdsCodeDirectory(){
     string fullFilename = filename;
     if(!fileExtension.empty()) fullFilename += "." + fileExtension;
-    string fullFilenameWithPath = mdscodeDirectory+"/"+fullFilename;
+    string fullFilenameWithPath = Globals::MDS_DIR_PATH+"/"+fullFilename;
     file.open(fullFilenameWithPath);
 }
 

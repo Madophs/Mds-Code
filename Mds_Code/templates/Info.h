@@ -1,3 +1,6 @@
+#ifndef INFO_H
+#define INFO_H
+
 #include <iomanip>
 #include <iostream>
 
@@ -92,3 +95,5 @@ void displayLogo(){
     }
     cout<<endl;
 }
+
+#endif

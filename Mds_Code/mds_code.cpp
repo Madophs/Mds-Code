@@ -1,5 +1,6 @@
-#include "Export.h"
-#include "Info.h"
+#include "templates/Export.h"
+#include "templates/Info.h"
+#include "templates/Config.h"
 
 int main(int argc, char *argv[]){
     cout<<fixed<<setfill(' ')<<setprecision(1)<<left;
@@ -9,7 +10,7 @@ int main(int argc, char *argv[]){
             setupDefaultEnvironment();
             return 0;
         }
-        readFilenameSection();
+        //readFilenameSection();
         if(parameter == "-v" || parameter == "--version"){
             displayVersion();
         }else if(parameter == "-n" || parameter == "--new"){
@@ -30,14 +31,14 @@ int main(int argc, char *argv[]){
             displayHelp();
         }else if(parameter == "-c++" || parameter == "--c++"){
             if(argc > 2){
-                createSourceCodeFile(argc, argv, "cpp","template_cpp.cpp");
+                createSourceCodeFile(argv[2], "cpp","template_cpp.cpp");
             }else{
                 printInColor("Error: ","red","filename not specified.\n");
                 exit(1);
             }
         }else if(parameter == "-j" || parameter == "--java"){
             if(argc > 2){
-                createSourceCodeFile(argc, argv, "java","template_java.java");
+                createSourceCodeFile(argv[2], "java","template_java.java");
             }else{
                 printInColor("Error: ","red","filename not specified.\n");
                 exit(1);
@@ -84,7 +85,7 @@ int main(int argc, char *argv[]){
                         if(argc > 4){
                             string templateName = argv[4];
                             if(argc > 5){
-                                createSourceCodeFile(argc, argv, fileExtension,templateName,5);
+                                createSourceCodeFile(argv[5], fileExtension,templateName);
                             }else{
                                 printInColor("Error: ","red","filename not specified.\n");
                                 exit(1);
@@ -97,7 +98,7 @@ int main(int argc, char *argv[]){
                         printInColor("Error: ","red","Option "+fourthParameter+" not recognized.");
                         exit(1);
                     }else{
-                        createSourceCodeFile(argc,argv, fileExtension,"",3);
+                        createSourceCodeFile(argv[3],fileExtension,"",3);
                     }
                 }else{
                     printInColor("Error: ","red","missing parameters.\n");

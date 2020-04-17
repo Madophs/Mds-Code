@@ -1,3 +1,6 @@
+#ifndef FILECREATION_H
+#define FILECREATION_H
+
 #include "FileCreation.h"
 
 using namespace std;
@@ -166,3 +169,5 @@ void executeBinaryFile(bool input = false, bool output = false, bool javaFile = 
     }
     system(command.c_str());
 }
+
+#endif

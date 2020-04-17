@@ -1,6 +1,5 @@
 #include "CompileAndRun.h"
 
-
 void setFilenameAndExtension(string fullFilename, string &filename, string &extension){
     int pos = fullFilename.find_first_of('.');
     if(pos == fullFilename.length() || pos+1 == fullFilename.length()){

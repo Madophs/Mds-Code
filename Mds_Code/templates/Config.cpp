@@ -1,45 +1,39 @@
-#include "MdsFile.h"
+#include "Config.h"
+
+void createFileInMdsDirectory(string filename, string extention){
+    MdsFile file(filename,extention);
+    file.createAtMdsCodeDirectory();
+    file.close();
+}
 
 void createMdsCodeDirectory(){
-    string homeDirectory = getenv("HOME");
-    string command = "mkdir -p "+homeDirectory+"/MdsCode/bin";
-    system(command.c_str());
-    command = "mkdir -p "+homeDirectory+"/MdsCode/source";
-    system(command.c_str());
-    command = "mkdir -p "+homeDirectory+"/MdsCode/exports";
-    system(command.c_str());
+    system(("mkdir -p "+Globals::BIN_DIR_PATH).c_str());
+    system(("mkdir -p "+Globals::SOURCE_DIR_PATH).c_str());
+    system(("mkdir -p "+Globals::EXPORTS_DIR_PATH).c_str());
+    system(("mkdir -p "+Globals::TEMPLATE_DIR_PATH).c_str());
 }
 
 void createIOFiles(){
     createMdsCodeDirectory();
-    MdsFile inputFile("input","txt");
-    inputFile.createAtMdsCodeDirectory();
-    inputFile.close();
-    MdsFile outputFile("output","txt");
-    outputFile.createAtMdsCodeDirectory();
-    outputFile.close();
-    MdsFile comparationFile("solution","txt");
-    comparationFile.createAtMdsCodeDirectory();
-    comparationFile.close();
+    createFileInMdsDirectory("input","txt");
+    createFileInMdsDirectory("output","txt");
+    createFileInMdsDirectory("solution","txt");
 }
 
 void removeMdsCodeDirectory(){
     createMdsCodeDirectory();
-    string homeDirectory = getenv("HOME");
-    string mdsDirectory = homeDirectory+"/MdsCode";
-    string command = "rm -r "+mdsDirectory;
-    system(command.c_str());
+    system(("rm -r "+Globals::MDS_DIR_PATH).c_str());
 }
 
 void createDefaultCplusplusTemplate(){
     createMdsCodeDirectory();
     MdsFile cplusplusTemplate("template_cpp","cpp");
-    cplusplusTemplate.createAtMdsCodeDirectory();
+    cplusplusTemplate.create(Globals::TEMPLATE_DIR_PATH);
     string imports = "#include <bits/stdc++.h>";
     string namespaceStd = "using namespace std;";
     string unsyncWithStdio = "\tios_base::sync_with_stdio(false);";
-    string fastInput = "\tcin.tie(NULL);";
-    string fastOutput = "\tcout.tie(NULL);";
+    string fastInput = "\tcin.tie(nullptr);";
+    string fastOutput = "\tcout.tie(nullptr);";
     cplusplusTemplate.addText(imports);
     cplusplusTemplate.addNewLine();
     cplusplusTemplate.addText(namespaceStd);
@@ -57,7 +51,7 @@ void createDefaultCplusplusTemplate(){
 void createDefaultJavaTemplate(){
     createMdsCodeDirectory();
     MdsFile javaTemplate("template_java","java");
-    javaTemplate.createAtMdsCodeDirectory();
+    javaTemplate.create(Globals::TEMPLATE_DIR_PATH);
     string imports = "import java.io.*;";
     string hereGoesClassName = "{{classname}}";
     string className = "class " + hereGoesClassName + " {";
@@ -96,7 +90,7 @@ void createConfigfile(){
     configFile.addText("# Flags for naming files");
     configFile.addText("RemoveNumbers = false");
     configFile.addText("RemoveNonAlphabeticalCharacters = true # (./',\\-!, etc...) not include spaces or [ñ,á,é,í,ó,ú]");
-    configFile.addText("CapitalizeEveryWord = true # hello world -> Hello World");
+    configFile.addText("CapitalizeEveryWord = false # hello world -> Hello World");
     configFile.addText("ProblemNumberToEndOfFilename = true");
     configFile.addText("SeparateFilenameWithUnderscores = true #true hello world = hello_word and false = helloworld");
     configFile.addText("ChangeLettersToEnglishAlphabet = true # Español -> Espanol, í -> i in other words [ñ,á,é,í,ó,ú] => [n,a,e,i,o,u]");
@@ -129,4 +123,3 @@ void setupDefaultEnvironment(){
     createDefaultJavaTemplate();
     createConfigfile();
 }
-

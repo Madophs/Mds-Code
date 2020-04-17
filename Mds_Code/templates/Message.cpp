@@ -1,9 +1,11 @@
 #include <iostream>
 
-using namespace std;
-
-void printInColor(string messageInColor, string foregroundColor = "Default",string restOfMessage = "", string backgroundColor = "Default", string modifier = "bold"){
-    string finalMessage = "";
+void printInColor(std::string messageInColor,
+            std::string foregroundColor,
+            std::string restOfMessage,
+            std::string backgroundColor,
+            std::string modifier){
+    std::string finalMessage = "";
 
     if(modifier == "reset"){
         finalMessage = "\e[0";
@@ -14,8 +16,8 @@ void printInColor(string messageInColor, string foregroundColor = "Default",stri
     }else if(modifier == "inverse"){
         finalMessage = "\e[7";
     }else{
-        cout<<"\e[1;31mError: \e[0mmodifier not found.\n";
-        exit(1);
+        std::cout<<"\e[1;31mError: \e[0mmodifier not found.\n";
+        exit(EXIT_FAILURE);
     }
 
     if(foregroundColor == "black"){
@@ -36,8 +38,8 @@ void printInColor(string messageInColor, string foregroundColor = "Default",stri
         finalMessage += ";37";
     }else{
         if(foregroundColor != "Default"){
-            cout<<"\e[1;31mError: \e[0mforeground color not found.\n";
-            exit(1);
+            std::cout<<"\e[1;31mError: \e[0mforeground color not found.\n";
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -59,11 +61,11 @@ void printInColor(string messageInColor, string foregroundColor = "Default",stri
         finalMessage += ";47";
     }else{
         if(backgroundColor != "Default"){
-            cout<<"\e[1;31mError: \e[0mbackground color not found.\n";
-            exit(1);
+            std::cout<<"\e[1;31mError: \e[0mbackground color not found.\n";
+            exit(EXIT_FAILURE);
         }
     }
 
     finalMessage += "m" + messageInColor + "\e[0m" + restOfMessage;
-    cout<<finalMessage;
+    std::cout<<finalMessage;
 }
