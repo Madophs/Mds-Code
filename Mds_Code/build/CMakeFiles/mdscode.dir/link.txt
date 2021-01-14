@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/mdscode.dir/mdscode.cpp.o  -o mdscode  src/liblibmdscode.a 

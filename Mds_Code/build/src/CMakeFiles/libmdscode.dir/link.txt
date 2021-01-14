@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblibmdscode.a  CMakeFiles/libmdscode.dir/MdsFile.cpp.o CMakeFiles/libmdscode.dir/Utils.cpp.o CMakeFiles/libmdscode.dir/Message.cpp.o CMakeFiles/libmdscode.dir/Globals.cpp.o
+/usr/bin/ranlib liblibmdscode.a

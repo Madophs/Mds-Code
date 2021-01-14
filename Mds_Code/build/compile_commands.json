@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/madophs/Documents/git/Mds-Code/Mds_Code/build",
+  "command": "/usr/bin/c++   -I/home/madophs/Documents/git/Mds-Code/Mds_Code/include -I/home/madophs/Documents/git/Mds-Code/Mds_Code/build -I/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src    -std=gnu++14 -o CMakeFiles/mdscode.dir/mdscode.cpp.o -c /home/madophs/Documents/git/Mds-Code/Mds_Code/mdscode.cpp",
+  "file": "/home/madophs/Documents/git/Mds-Code/Mds_Code/mdscode.cpp"
+},
+{
+  "directory": "/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src",
+  "command": "/usr/bin/c++   -I/home/madophs/Documents/git/Mds-Code/Mds_Code/include    -std=gnu++14 -o CMakeFiles/libmdscode.dir/MdsFile.cpp.o -c /home/madophs/Documents/git/Mds-Code/Mds_Code/src/MdsFile.cpp",
+  "file": "/home/madophs/Documents/git/Mds-Code/Mds_Code/src/MdsFile.cpp"
+},
+{
+  "directory": "/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src",
+  "command": "/usr/bin/c++   -I/home/madophs/Documents/git/Mds-Code/Mds_Code/include    -std=gnu++14 -o CMakeFiles/libmdscode.dir/Utils.cpp.o -c /home/madophs/Documents/git/Mds-Code/Mds_Code/src/Utils.cpp",
+  "file": "/home/madophs/Documents/git/Mds-Code/Mds_Code/src/Utils.cpp"
+},
+{
+  "directory": "/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src",
+  "command": "/usr/bin/c++   -I/home/madophs/Documents/git/Mds-Code/Mds_Code/include    -std=gnu++14 -o CMakeFiles/libmdscode.dir/Message.cpp.o -c /home/madophs/Documents/git/Mds-Code/Mds_Code/src/Message.cpp",
+  "file": "/home/madophs/Documents/git/Mds-Code/Mds_Code/src/Message.cpp"
+},
+{
+  "directory": "/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src",
+  "command": "/usr/bin/c++   -I/home/madophs/Documents/git/Mds-Code/Mds_Code/include    -std=gnu++14 -o CMakeFiles/libmdscode.dir/Globals.cpp.o -c /home/madophs/Documents/git/Mds-Code/Mds_Code/src/Globals.cpp",
+  "file": "/home/madophs/Documents/git/Mds-Code/Mds_Code/src/Globals.cpp"
+}
+]

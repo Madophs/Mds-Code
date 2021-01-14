@@ -1,0 +1,6 @@
+/home/madophs/Documents/git/Mds-Code/Mds_Code/build/CMakeFiles/rebuild_cache.dir
+/home/madophs/Documents/git/Mds-Code/Mds_Code/build/CMakeFiles/edit_cache.dir
+/home/madophs/Documents/git/Mds-Code/Mds_Code/build/CMakeFiles/mdscode.dir
+/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src/CMakeFiles/rebuild_cache.dir
+/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src/CMakeFiles/edit_cache.dir
+/home/madophs/Documents/git/Mds-Code/Mds_Code/build/src/CMakeFiles/libmdscode.dir
