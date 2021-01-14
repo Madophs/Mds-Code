@@ -1,2 +1,3 @@
 # Ignore visual studio code directory
 .vscode/
+.cache
