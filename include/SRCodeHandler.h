@@ -3,10 +3,6 @@
 
 #include "FileFactory.h"
 
-using namespace std;
-
-string homeDirectory = getenv("HOME");
-
 vector<int> kmpPreprocess(string line){
     vector<int> pattern(line.length()+1, 0);
     pattern[0] = -1;
@@ -58,8 +54,8 @@ string constructCommand(string filename){
     string command = "", fileExtension = getExtension(filename);
     if(fileExtension.empty()) return "-1";
     ifstream configFile;
-    string pathToConfigFile = homeDirectory + "/MdsCode/mdscode.conf";
-    string pathToBinDirectory = homeDirectory + "/MdsCode/bin/";
+    string pathToConfigFile = Globals::HOME_DIR_PATH + "/MdsCode/mdscode.conf";
+    string pathToBinDirectory = Globals::HOME_DIR_PATH + "/MdsCode/bin/";
     string pathToMdsBinary = pathToBinDirectory + "mds";
     configFile.open(pathToConfigFile);
     if(!configFile.fail()){
@@ -87,8 +83,8 @@ string constructCommand(string filename){
                             kmpReplace(token,"{{output}}",pathToMdsBinary,kmpPreprocess("{{output}}"));
                             kmpReplace(token,"{{bin}}",pathToBinDirectory,kmpPreprocess("{{bin}}"));
                             kmpReplace(token,"{{filename}}",filename,kmpPreprocess("{{filename}}"));
-                            kmpReplace(token,"{{source}}",homeDirectory+"/MdsCode/source/",kmpPreprocess("{{filename}}"));
-                            kmpReplace(token,"{{mds}}",homeDirectory+"/MdsCode/bin/",kmpPreprocess("{{filename}}"));
+                            kmpReplace(token,"{{source}}",Globals::HOME_DIR_PATH+"/MdsCode/source/",kmpPreprocess("{{filename}}"));
+                            kmpReplace(token,"{{mds}}",Globals::HOME_DIR_PATH+"/MdsCode/bin/",kmpPreprocess("{{filename}}"));
                             return command = token;
                         }
                     }
@@ -106,31 +102,31 @@ string constructCommand(string filename){
 
 void buildSourceCode(string filename){
     if(!fileExists(filename)){
-        printInColor("Error: ","red","file"+filename+" not found.\n");
+        mds::printInColor("Error: ","red","file"+filename+" not found.\n");
         exit(1);
     }
     string command = constructCommand(filename);
     if(command == "-1"){
-        printInColor("Error: ","red","file extension not valid.\n");
+        mds::printInColor("Error: ","red","file extension not valid.\n");
         exit(1);
     }else if(command == "-2"){
-        printInColor("Error: ","red","config file not found.\n");
+        mds::printInColor("Error: ","red","config file not found.\n");
         exit(1);
     }else if(command == "-3"){
-        printInColor("Errors in compilation section.\n","red");
+        mds::printInColor("Errors in compilation section.\n","red");
         exit(1);
     }else if(command == "-4"){
-        printInColor("Error: ","red","command sintax not found in config file.\n");
+        mds::printInColor("Error: ","red","command sintax not found in config file.\n");
         exit(1);
     }else if(command == "-5"){
-        printInColor("Error: ","red","compilation section not found in config file.\n");
+        mds::printInColor("Error: ","red","compilation section not found in config file.\n");
         exit(1);
     }
     string fileExtension = getExtension(filename);
     string line, filenameWithoutExtension = filename.substr(0,filename.length()-fileExtension.length()-1);
     if(fileExtension == "java" && filenameWithoutExtension != "Main"){
         ifstream input(filename);
-        ofstream output(homeDirectory+"/MdsCode/source/Main.java",ios::out);
+        ofstream output(Globals::HOME_DIR_PATH+"/MdsCode/source/Main.java",ios::out);
         vector<int> pattern = kmpPreprocess(filenameWithoutExtension);
         while(getline(input,line)){
             kmpReplace(line,filenameWithoutExtension,"Main",pattern,true);
@@ -144,21 +140,21 @@ void buildSourceCode(string filename){
 }
 
 void executeBinaryFile(bool input = false, bool output = false, bool javaFile = false){
-    string mdscodeDirectory = homeDirectory + "/MdsCode";
+    string mdscodeDirectory = Globals::HOME_DIR_PATH + "/MdsCode";
     string pathToInput = mdscodeDirectory + "/input.txt";
     string pathToOutput = mdscodeDirectory + "/output.txt";
     string inputCommand = input ? " < " + pathToInput: "";
     string outputCommand = output ? " > " + pathToOutput: "";
     if(!fileExists(mdscodeDirectory+"/bin/mds") && !javaFile){
-        printInColor("Error: ","red","binary file \"mds\" not found.\n");
+        mds::printInColor("Error: ","red","binary file \"mds\" not found.\n");
         exit(1);
     }
     if(input && !fileExists(pathToInput)){
-        printInColor("Error: ","red","input file doesn't exists.\n");
+        mds::printInColor("Error: ","red","input file doesn't exists.\n");
         exit(1);
     }
     if(output && !fileExists(pathToOutput)){
-        printInColor("Error: ","red","output file doesn't exists.\n");
+        mds::printInColor("Error: ","red","output file doesn't exists.\n");
         exit(1);
     }
     string command;

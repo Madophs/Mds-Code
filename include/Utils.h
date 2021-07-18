@@ -13,6 +13,8 @@ namespace mds {
     std::vector<int> kmpPreprocess(std::string line);
 
     bool fileExists(std::string pathToFile);
+
+    bool dirExists(std::string dir);
 } // namespace mds
 
 #endif

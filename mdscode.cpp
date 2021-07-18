@@ -1,9 +1,10 @@
-#include "Export.h"
-#include "Info.h"
-#include "Config.h"
+//#include "Config.h"
+#include "MdsParser.h"
 
 int main(int argc, char *argv[]){
+    mds::Parser::parseArgs(argc, argv);
     // IO operations
+    /*
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(nullptr);
     std::cout.tie(nullptr);
@@ -122,6 +123,6 @@ int main(int argc, char *argv[]){
     }else{
         displayLogo();
         cout << "Developed by Jehú Jair Ruiz Villegas A.K.A Madophs" << endl;
-    }
+    }*/
     return 0;
 }

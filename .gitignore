@@ -1,3 +1,6 @@
 # Ignore visual studio code directory
 .vscode/
 .cache
+.clangd
+compile_commands.json
+build/

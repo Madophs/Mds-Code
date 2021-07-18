@@ -21,4 +21,6 @@ namespace Globals {
     std::string USER = getenv("USER");
 
     std::string EXPORTS_DIR_PATH = MDS_DIR_PATH + "/exports";
+
+    std::string CWD = getenv("PWD");
 };

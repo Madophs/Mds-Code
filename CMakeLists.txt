@@ -16,7 +16,8 @@ add_executable(mdscode mdscode.cpp)
 target_link_libraries(mdscode PUBLIC libmdscode)
 
 target_include_directories(mdscode PUBLIC
-                            "${PROJECT_BINARY_DIR}"
-                            "${PROJECT_BINARY_DIR}/src"
+                            "${PROJECT_SOURCE_DIR}"
+                            "${PROJECT_SOURCE_DIR}/src"
+                            "${PROJECT_SOURCE_DIR}/include"
                             )
 

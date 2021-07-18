@@ -1,4 +1,7 @@
-#include "CompileAndRun.h"
+#include "Utils.h"
+
+namespace mds {
+using namespace std;
 
 void setFilenameAndExtension(string fullFilename, string &filename, string &extension){
     int pos = fullFilename.find_first_of('.');
@@ -11,38 +14,10 @@ void setFilenameAndExtension(string fullFilename, string &filename, string &exte
     }
 }
 
-string getCurrentPath(){
-    FILE *fpipe = popen("pwd","r");
-    char line[300];
-    string output = "", token,path;
-    while(fgets(line,200,fpipe)) output += line;
-    stringstream ss(line);
-    for(int i = 0; ss>>token; i++){
-        path += token;
-    }
-    if(path.empty()) return "";
-    return path;
-}
-
-bool directoryExists(string pathToDirectory){
-    string command = "[ -d \""+pathToDirectory+"\" ] && echo \"Exists.\"";
-    FILE *fpipe = popen(command.c_str(),"r");
-    char line[50];
-    string output = "", token,path;
-    while(fgets(line,200,fpipe)) output += line;
-    stringstream ss(line);
-    for(int i = 0; ss>>token; i++){
-        path += token;
-    }
-    if(path.empty()) return false;
-    return true;
-}
-
 void exportSourceFile(int argc, char *argv[]){
-    string exportPath = homeDirectory+"/MdsCode/exports/";
     if(argc > 2){
         if(argc == 3){
-            string command = "cp "+((string)argv[2])+" "+homeDirectory+"/MdsCode/exports/"+((string)argv[2]);
+            string command = "cp "+((string)argv[2])+" "+ Globals::EXPORTS_DIR_PATH;
             system(command.c_str());
         }else{
             string filename, extension;
@@ -70,11 +45,12 @@ void exportSourceFile(int argc, char *argv[]){
                 }
             }
             if(exportPath.back() != '/') exportPath.push_back('/');
-            if(!directoryExists(exportPath)){
+
+            if(!dirExists(exportPath)){
                 printInColor("Error: ","red","directory "+exportPath+" does not exists.\n");
                 exit(1);
             }
-            string currentFilePath = getCurrentPath()+"/"+argv[2];
+            string currentFilePath = Globals::CWD+"/"+argv[2];
             if(currentFilePath == exportPath+filename+"."+extension){
                 printInColor("Error: ","red","you can not export to the same directory with the same filename.\n");
                 exit(1);
@@ -84,7 +60,7 @@ void exportSourceFile(int argc, char *argv[]){
                 system(command.c_str());
             }else{
                 MdsFile fileExport(filename,extension);
-                fileExport.createFileWithContent(getCurrentPath()+"/"+((string)argv[2]),originalFilename);
+                fileExport.createFileWithContent(Globals::CWD+"/"+((string)argv[2]),originalFilename);
                 fileExport.close();
                 string command = "rm -f "+exportPath+filename+"."+extension+" ";
                 system(command.c_str());
@@ -96,3 +72,4 @@ void exportSourceFile(int argc, char *argv[]){
         printInColor("Error: ","red","filename not specified.\n");
     }
 }
+} // namespace mds

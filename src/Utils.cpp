@@ -1,5 +1,9 @@
 #include "Utils.h"
 #include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 namespace mds {
     void kmpReplace(std::string &line, std::string &search,
@@ -34,6 +38,15 @@ namespace mds {
         if (!file.is_open())
             return false;
         file.close();
+        return true;
+    }
+
+    bool dirExists(std::string dir) {
+        int fd = open(dir.c_str(), O_DIRECTORY);
+        if (fd != 0) {
+            return false;
+        }
+        close(fd);
         return true;
     }
 

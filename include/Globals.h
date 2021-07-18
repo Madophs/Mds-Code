@@ -23,6 +23,8 @@ namespace Globals {
     extern std::string USER;
 
     extern std::string EXPORTS_DIR_PATH;
+
+    extern std::string CWD;
 }
 
 #endif
